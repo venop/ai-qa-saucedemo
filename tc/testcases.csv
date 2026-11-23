@@ -1,0 +1,216 @@
+﻿TC_ID,REQ_ID,기능,유형,우선순위,사전조건,테스트 스텝,기대결과,자동화 대상,자동화 1차 대상,비고(현재 동작)
+TC-LOGIN-001,REQ-LOGIN-01,로그인,정상,P1,"로그인 화면(/) 접속, 비로그인 상태","1. Username에 standard_user 입력
+2. Password에 secret_sauce 입력
+3. [Login] 선택",URL이 /inventory.html로 바뀌고 상품 목록이 노출된다,Y,Y,
+TC-LOGIN-002,REQ-LOGIN-01,로그인,정상,P3,"로그인 화면(/) 접속, 비로그인 상태","1. Username에 standard_user 입력
+2. Password에 secret_sauce 입력
+3. Password 필드에서 Enter 키 입력",[Login] 버튼을 누르지 않아도 로그인되어 URL이 /inventory.html로 바뀌고 상품 목록이 노출된다,Y,N,
+TC-LOGIN-003,REQ-LOGIN-01,로그인,예외,P3,"로그인 화면(/) 접속, 비로그인 상태","1. Username에 "" standard_user ""(앞뒤 공백 포함) 입력
+2. Password에 secret_sauce 입력
+3. [Login] 선택","공백이 제거되지 않아 로그인에 실패하고 ""Epic sadface: Username and password do not match any user in this service"" 에러 메시지가 표시되며 URL은 로그인 화면(/)에 머무른다",Y,N,
+TC-LOGIN-004,REQ-LOGIN-02,로그인,예외,P1,"로그인 화면(/) 접속, 비로그인 상태","1. Username에 standard_user 입력
+2. Password에 wrong_password 입력
+3. [Login] 선택","""Epic sadface: Username and password do not match any user in this service"" 에러 메시지가 표시되고 URL은 로그인 화면(/)에 머무른다",Y,Y,
+TC-LOGIN-005,REQ-LOGIN-02,로그인,예외,P1,"로그인 화면(/) 접속, 비로그인 상태","1. Username에 unknown_user(존재하지 않는 아이디) 입력
+2. Password에 secret_sauce 입력
+3. [Login] 선택","""Epic sadface: Username and password do not match any user in this service"" 에러 메시지가 표시되고 URL은 로그인 화면(/)에 머무른다",Y,N,
+TC-LOGIN-006,REQ-LOGIN-02,로그인,경계값,P2,"로그인 화면(/) 접속, 비로그인 상태","1. Username에 standard_user 입력
+2. Password에 Secret_Sauce(대소문자만 다름) 입력
+3. [Login] 선택","""Epic sadface: Username and password do not match any user in this service"" 에러 메시지가 표시되고 URL은 로그인 화면(/)에 머무른다",Y,N,
+TC-LOGIN-007,REQ-LOGIN-02,로그인,예외,P2,"로그인 화면(/) 접속, 비로그인 상태","1. Username을 비워 둠
+2. Password에 secret_sauce 입력
+3. [Login] 선택","""Epic sadface: Username is required"" 에러 메시지가 표시되고 URL은 로그인 화면(/)에 머무른다",Y,N,
+TC-LOGIN-008,REQ-LOGIN-02,로그인,예외,P2,"로그인 화면(/) 접속, 비로그인 상태","1. Username에 standard_user 입력
+2. Password를 비워 둠
+3. [Login] 선택","""Epic sadface: Password is required"" 에러 메시지가 표시되고 URL은 로그인 화면(/)에 머무른다",Y,N,
+TC-LOGIN-009,REQ-LOGIN-02,로그인,정상,P2,"로그인 화면(/) 접속, 비로그인 상태","1. standard_user / wrong_password로 로그인 시도
+2. 에러 메시지 표시 확인
+3. Password를 secret_sauce로 고쳐 입력
+4. [Login] 선택",에러 메시지 이후 재시도에서 로그인되어 URL이 /inventory.html로 바뀌고 상품 목록이 노출된다,Y,N,
+TC-LOGIN-010,REQ-LOGIN-02,로그인,UI,P3,"로그인 화면(/) 접속, 비로그인 상태","1. standard_user / wrong_password로 로그인 시도
+2. 에러 메시지의 닫기(X) 버튼 선택",에러 메시지가 사라지고 Username·Password 입력 필드의 에러 표시(빨간 테두리·X 아이콘)도 사라진다,Y,N,
+TC-LOGIN-011,REQ-LOGIN-03,로그인,정상,P1,"로그인 화면(/) 접속, 비로그인 상태","1. Username에 locked_out_user 입력
+2. Password에 secret_sauce 입력
+3. [Login] 선택","""Epic sadface: Sorry, this user has been locked out."" 잠금 안내 메시지가 표시되고 URL은 로그인 화면(/)에 머무른다",Y,Y,
+TC-LOGIN-012,REQ-LOGIN-03,로그인,예외,P2,"로그인 화면(/) 접속, 비로그인 상태","1. Username에 locked_out_user 입력
+2. Password에 wrong_password 입력
+3. [Login] 선택","잠금 안내가 아닌 ""Epic sadface: Username and password do not match any user in this service"" 에러 메시지가 표시되고 URL은 로그인 화면(/)에 머무른다",Y,N,
+TC-LOGIN-013,REQ-LOGIN-04,로그인,정상,P1,비로그인 상태(세션 쿠키 없음),1. 주소창에 https://www.saucedemo.com/inventory.html 직접 입력해 접속,"상품 목록이 노출되지 않고 로그인 화면(/)으로 이동해 ""Epic sadface: You can only access '/inventory.html' when you are logged in."" 에러 메시지가 표시된다",Y,Y,
+TC-LOGIN-014,REQ-LOGIN-04,로그인,예외,P1,비로그인 상태(세션 쿠키 없음),1. 주소창에 /cart.html 직접 입력해 접속,"장바구니 화면이 노출되지 않고 로그인 화면(/)으로 이동해 ""Epic sadface: You can only access '/cart.html' when you are logged in."" 에러 메시지가 표시된다",Y,N,
+TC-LOGIN-015,REQ-LOGIN-04,로그인,예외,P1,비로그인 상태(세션 쿠키 없음),"1. /checkout-step-one.html 직접 접속
+2. /checkout-step-two.html 직접 접속
+3. /checkout-complete.html 직접 접속","세 URL 모두 로그인 화면(/)으로 이동하고, 접근한 경로가 들어간 에러 메시지가 표시된다(예: ""Epic sadface: You can only access '/checkout-step-one.html' when you are logged in."")",Y,N,
+TC-LOGIN-016,REQ-LOGIN-04,로그인,예외,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 좌측 메뉴 열기
+2. [Logout] 선택
+3. 브라우저 뒤로가기","상품 목록이 노출되지 않고 로그인 화면(/)에 ""Epic sadface: You can only access '/inventory.html' when you are logged in."" 에러 메시지가 표시된다",Y,N,
+TC-LOGIN-017,REQ-LOGIN-04,로그인,예외,P2,비로그인 상태(세션 쿠키 없음),1. 주소창에 /inventory-item.html?id=4 직접 입력해 접속,"상품 상세 화면이 노출되지 않고 로그인 화면(/)으로 이동해 ""Epic sadface: You can only access '/inventory-item.html' when you are logged in."" 에러 메시지가 표시된다",Y,N,
+TC-LIST-001,REQ-LIST-01,상품 목록,정상,P1,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음",1. 상품 목록의 상품 카드 개수 확인,상품 카드가 정확히 6개 노출된다,Y,N,
+TC-LIST-002,REQ-LIST-01,상품 목록,예외,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 정렬을 Price (high to low)로 변경
+2. 상품 2개 [Add to cart] 선택
+3. 장바구니 아이콘 선택
+4. [Continue Shopping] 선택","각 단계 후 상품 목록의 카드 수가 6개로 유지되고, 담은 상품이 목록에서 사라지지 않는다",Y,N,
+TC-LIST-003,REQ-LIST-02,상품 목록,정상,P1,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 정렬 드롭다운의 선택값 확인
+2. 상품 이름 순서 확인","드롭다운에 Name (A to Z)가 선택되어 있고, 6개 상품 이름이 알파벳 오름차순으로 노출된다",Y,N,
+TC-LIST-004,REQ-LIST-02,상품 목록,예외,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 정렬을 Name (Z to A)로 변경
+2. 장바구니 아이콘 선택
+3. [Continue Shopping] 선택",목록으로 돌아오면 정렬 드롭다운이 기본값 Name (A to Z)로 돌아가고 상품이 이름 오름차순으로 노출된다,Y,N,
+TC-LIST-005,REQ-LIST-03,상품 목록,정상,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음",1. 6개 상품 카드 각각의 구성 요소 확인,"6개 카드 모두에 상품 이미지, 상품 이름, 설명, 가격, [Add to cart] 버튼이 각각 노출된다",Y,N,
+TC-LIST-006,REQ-LIST-03,상품 목록,UI,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음",1. 6개 상품의 가격 표기 확인,"모든 가격이 ""$"" 기호와 함께 소수점 둘째 자리까지 표시된다(예: $29.99)",Y,N,
+TC-LIST-007,REQ-LIST-03,상품 목록,예외,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 정렬 전 각 카드의 이미지·이름·설명·가격 기록
+2. 정렬을 Price (high to low)로 변경
+3. 각 카드 구성 다시 확인","정렬 후에도 6개 카드 모두에 이미지·이름·설명·가격·버튼이 노출되고, 상품별 이미지·설명·가격 조합이 정렬 전과 같다",Y,N,
+TC-LIST-008,REQ-LIST-04,상품 목록,정상,P1,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음",1. 첫 번째 상품의 [Add to cart] 선택,해당 상품의 버튼만 [Remove]로 바뀌고 나머지 5개 상품은 [Add to cart] 그대로 노출된다,Y,N,
+TC-LIST-009,REQ-LIST-04,상품 목록,정상,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음",1. 서로 다른 상품 3개의 [Add to cart] 선택,담은 3개 상품의 버튼만 [Remove]로 바뀌고 나머지 3개는 [Add to cart]로 노출된다,Y,N,
+TC-LIST-010,REQ-LIST-04,상품 목록,예외,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 첫 번째 상품의 [Add to cart] 선택
+2. 같은 상품의 [Remove] 선택",버튼이 다시 [Add to cart]로 바뀌고 상단 장바구니 배지가 사라진다,Y,N,
+TC-LIST-011,REQ-LIST-05,상품 목록,UI,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음",1. 우측 상단 정렬 드롭다운 열기,"옵션이 Name (A to Z), Name (Z to A), Price (low to high), Price (high to low) 정확히 4개 노출된다",Y,N,
+TC-LIST-012,REQ-LIST-05,상품 목록,정상,P1,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음",1. 정렬을 Name (Z to A)로 선택,드롭다운에 Name (Z to A)가 표시되고 6개 상품 이름이 알파벳 내림차순으로 노출된다,Y,Y,
+TC-LIST-013,REQ-LIST-05,상품 목록,정상,P1,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음",1. 정렬을 Price (low to high)로 선택,6개 상품이 가격 오름차순(앞 상품 가격 ≤ 뒤 상품 가격)으로 노출된다,Y,Y,
+TC-LIST-014,REQ-LIST-05,상품 목록,정상,P1,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음",1. 정렬을 Price (high to low)로 선택,6개 상품이 가격 내림차순(앞 상품 가격 ≥ 뒤 상품 가격)으로 노출된다,Y,N,
+TC-LIST-015,REQ-LIST-05,상품 목록,예외,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 정렬을 Name (Z to A)로 선택
+2. 정렬을 다시 Name (A to Z)로 선택",상품 순서가 기본 정렬과 같은 이름 오름차순으로 돌아온다,Y,N,
+TC-LIST-016,REQ-LIST-05,상품 목록,경계값,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 정렬을 Price (low to high)로 선택해 가격이 같은 상품들의 순서 확인
+2. 정렬을 Price (high to low)로 선택해 같은 상품들의 순서 확인",두 정렬 모두에서 가격이 같은 상품끼리는 이름 오름차순(A to Z)으로 노출된다,Y,N,
+TC-LIST-017,REQ-LIST-05,상품 목록,예외,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 상품 2개 [Add to cart] 선택
+2. 정렬을 Price (high to low)로 선택","정렬 후에도 담은 2개 상품의 버튼은 [Remove]이고 장바구니 배지는 ""2""로 유지된다",Y,N,
+TC-LIST-018,REQ-LIST-06,상품 목록,정상,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 첫 번째 상품의 이름 선택
+2. 브라우저 뒤로가기 후 첫 번째 상품의 이미지 선택","이름과 이미지 모두 해당 상품의 상세 화면(/inventory-item.html?id=<상품 ID>)으로 이동하고, 목록과 같은 이름·설명·가격·이미지와 [Add to cart], [Back to products] 버튼이 노출된다",Y,N,
+TC-LIST-019,REQ-LIST-06,상품 목록,정상,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 첫 번째 상품의 상세 화면으로 이동
+2. [Back to products] 선택",URL이 /inventory.html로 바뀌고 상품 6개가 노출된다,Y,N,
+TC-LIST-020,REQ-LIST-06,상품 목록,예외,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 정렬을 Price (high to low)로 변경
+2. 목록의 마지막 상품 이름 선택","정렬 후 선택한 상품(목록 마지막 상품)의 상세 화면이 열리고, 목록에 표시됐던 것과 같은 이름·가격이 노출된다",Y,N,
+TC-LIST-021,Q-09,상품 목록,예외,P3,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 주소창에 /inventory-item.html?id=99(존재하지 않는 상품 ID) 직접 입력해 접속
+2. 화면 구성 확인",[확인필요] 정책 미정,N,N,"""ITEM NOT FOUND""가 표시되지만 설명 문구, 가격 ""$√-1"", 404 이미지와 함께 [Add to cart] 버튼이 노출된다"
+TC-CART-001,REQ-CART-01,장바구니,정상,P1,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 상단 장바구니 배지 확인
+2. 상품 1개 [Add to cart] 선택","담기 전에는 배지가 없고, 담은 후 배지에 ""1""이 표시된다",Y,Y,
+TC-CART-002,REQ-CART-01,장바구니,정상,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 상품 1개 담기
+2. 다른 상품 1개 담기
+3. 또 다른 상품 1개 담기",담을 때마다 배지 숫자가 1 → 2 → 3으로 1씩 증가한다,Y,N,
+TC-CART-003,REQ-CART-01,장바구니,경계값,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음",1. 6개 상품 모두 [Add to cart] 선택,"배지에 ""6""이 표시된다",Y,N,
+TC-CART-004,REQ-CART-01,장바구니,예외,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 상품 2개 담기
+2. 상품 목록에서 담은 상품 1개의 [Remove] 선택
+3. 나머지 1개의 [Remove] 선택","배지가 2 → 1로 줄고, 마지막 상품을 빼면 배지가 사라진다",Y,N,
+TC-CART-005,REQ-CART-02,장바구니,정상,P1,"로그인 상태, 상품 2개를 담은 상태","1. 장바구니 아이콘 선택
+2. 상품 1개의 [Remove] 선택","제거한 상품이 장바구니 목록에서 사라져 1개만 남고, 배지가 ""1""로 바뀐다",Y,Y,
+TC-CART-006,REQ-CART-02,장바구니,경계값,P1,"로그인 상태, 상품 1개를 담은 상태","1. 장바구니 아이콘 선택
+2. 상품의 [Remove] 선택",장바구니 목록에 상품이 하나도 없고 배지가 사라진다,Y,N,
+TC-CART-007,REQ-CART-02,장바구니,예외,P2,"로그인 상태, 상품 2개를 담은 상태","1. 장바구니 아이콘 선택
+2. 상품 1개의 [Remove] 선택
+3. [Continue Shopping] 선택","상품 목록에서 제거한 상품의 버튼은 [Add to cart], 남은 상품의 버튼은 [Remove]로 노출된다",Y,N,
+TC-CART-008,REQ-CART-03,장바구니,정상,P1,"로그인 상태, 상품 2개를 담은 상태","1. 장바구니 아이콘 선택
+2. [Continue Shopping] 선택
+3. 다시 장바구니 아이콘 선택","장바구니에 담은 2개 상품이 그대로 있고, 배지가 ""2""로 유지되며, 목록 화면에서 두 상품의 버튼이 [Remove]로 노출된다",Y,N,
+TC-CART-009,REQ-CART-03,장바구니,정상,P2,"로그인 상태, 상품 2개를 담은 상태","1. 장바구니 아이콘 선택
+2. 브라우저 뒤로가기
+3. 브라우저 앞으로가기","각 화면에서 배지가 ""2""로 유지되고 장바구니에 2개 상품이 그대로 노출된다",Y,N,
+TC-CART-010,REQ-CART-03,장바구니,예외,P2,"로그인 상태, 상품 2개를 담은 상태","1. 상품 목록 화면에서 새로고침
+2. 장바구니 화면으로 이동해 새로고침","새로고침 후에도 배지가 ""2""이고 장바구니에 2개 상품이 그대로 노출된다",Y,N,
+TC-CART-011,Q-04,장바구니,UI,P3,"로그인 상태, 상품 1개를 담은 상태","1. 장바구니 아이콘 선택
+2. 상품의 수량 표시와 수량 변경 UI 확인",[확인필요] 정책 미정,N,N,"수량은 ""1"" 텍스트로만 표시되고 수량을 바꾸는 입력·버튼이 없다. 담은 상품의 목록 버튼이 [Remove]로 바뀌어 같은 상품을 다시 담을 수 없다"
+TC-CART-012,Q-05,장바구니,예외,P3,"로그인 상태, 상품 2개를 담은 상태","1. 좌측 메뉴에서 [Logout] 선택
+2. standard_user / secret_sauce로 다시 로그인
+3. 배지와 장바구니 확인",[확인필요] 정책 미정,N,N,"로그아웃 후 다시 로그인해도 장바구니가 유지된다(배지 ""2"", 담은 두 상품 버튼 [Remove])"
+TC-CART-013,REQ-CART-01,장바구니,정상,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 첫 번째 상품의 이름을 선택해 상품 상세 화면으로 이동
+2. 상세 화면의 [Add to cart] 선택
+3. [Back to products] 선택","상세 화면에서 담은 뒤 배지에 ""1""이 표시되고, 상품 목록으로 돌아가면 해당 상품의 버튼이 [Remove]로 노출된다",Y,N,
+TC-CART-014,REQ-CART-01,장바구니,예외,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 첫 번째 상품의 상세 화면으로 이동
+2. 상세 화면의 [Add to cart] 선택
+3. 상세 화면의 [Remove] 선택",[Remove] 선택 후 배지가 사라지고 상세 화면의 버튼이 [Add to cart]로 돌아온다,Y,N,
+TC-CART-015,REQ-CART-03,장바구니,예외,P2,"로그인 상태, 상품 2개를 담은 상태","1. 새 탭을 열어 https://www.saucedemo.com/inventory.html 접속
+2. 새 탭에서 장바구니 아이콘 선택","새 탭에서도 배지가 ""2""이고, 담은 2개 상품의 버튼이 [Remove]이며, 장바구니에 2개 상품이 노출된다",Y,N,
+TC-CART-016,REQ-CART-03,장바구니,예외,P3,"로그인 상태, 상품 2개를 담은 상태","1. 브라우저 창을 모두 닫아 종료
+2. 브라우저를 다시 열어 https://www.saucedemo.com/inventory.html 접속(로그인 화면이 나오면 standard_user로 로그인)
+3. 장바구니 아이콘 선택","브라우저 재시작 후에도 배지가 ""2""이고 장바구니에 2개 상품이 노출된다",N,N,
+TC-CART-017,REQ-CART-01,장바구니,정상,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 상품 목록에서 상품 2개의 이름·가격 기록
+2. 두 상품의 [Add to cart] 선택
+3. 장바구니 아이콘 선택
+4. 장바구니의 각 상품 이름·가격·수량(QTY) 확인","장바구니에 담은 2개 상품만 노출되고, 각 상품의 이름·가격이 상품 목록과 같으며 수량(QTY)이 1로 표시된다",Y,N,
+TC-CART-018,REQ-CART-01,장바구니,예외,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 첫 번째 상품의 [Add to cart]를 빠르게 연속 두 번 선택(더블클릭)
+2. 상품 버튼과 배지 확인
+3. 장바구니 아이콘 선택","같은 상품이 2개 이상 담기지 않고(장바구니 수량 최대 1), 상품 버튼([Add to cart]/[Remove])·배지 숫자·장바구니 상품 수가 서로 일치한다",Y,N,"더블클릭 시 담기·빼기가 연달아 처리되어 최종적으로 버튼 [Add to cart], 배지 없음, 장바구니 0개(서로 일치)"
+TC-CHECKOUT-001,REQ-CHECKOUT-01,결제,정상,P1,"로그인 상태, 상품 1개를 담은 상태","1. 장바구니 아이콘 선택
+2. [Checkout] 선택","정보 입력 화면으로 이동해 First Name, Last Name, Zip/Postal Code 입력 필드 3개가 노출된다",Y,N,
+TC-CHECKOUT-002,REQ-CHECKOUT-01,결제,예외,P2,"로그인 상태, 상품 1개를 담은 상태","1. 장바구니 아이콘 선택
+2. [Checkout] 선택
+3. 브라우저 뒤로가기","장바구니 화면으로 돌아가고 담은 상품과 배지 ""1""이 유지된다",Y,N,
+TC-CHECKOUT-003,REQ-CHECKOUT-02,결제,예외,P1,"로그인 상태, 상품 1개 담고 정보 입력 화면에 있음","1. First Name을 비워 둠
+2. Last Name에 Kim 입력
+3. Zip/Postal Code에 12345 입력
+4. [Continue] 선택","""Error: First Name is required"" 에러 메시지가 표시되고 주문 확인 화면으로 이동하지 않고 정보 입력 화면에 머무른다",Y,Y,
+TC-CHECKOUT-004,REQ-CHECKOUT-02,결제,예외,P1,"로그인 상태, 상품 1개 담고 정보 입력 화면에 있음","1. First Name에 Junyoung 입력
+2. Last Name을 비워 둠
+3. Zip/Postal Code에 12345 입력
+4. [Continue] 선택","""Error: Last Name is required"" 에러 메시지가 표시되고 정보 입력 화면에 머무른다",Y,N,
+TC-CHECKOUT-005,REQ-CHECKOUT-02,결제,예외,P1,"로그인 상태, 상품 1개 담고 정보 입력 화면에 있음","1. First Name에 Junyoung 입력
+2. Last Name에 Kim 입력
+3. Zip/Postal Code를 비워 둠
+4. [Continue] 선택","""Error: Postal Code is required"" 에러 메시지가 표시되고 정보 입력 화면에 머무른다",Y,N,
+TC-CHECKOUT-006,REQ-CHECKOUT-02,결제,경계값,P2,"로그인 상태, 상품 1개 담고 정보 입력 화면에 있음","1. 세 필드를 모두 비워 둠
+2. [Continue] 선택","가장 위 항목의 에러 ""Error: First Name is required"" 하나만 표시되고 정보 입력 화면에 머무른다",Y,N,
+TC-CHECKOUT-007,REQ-CHECKOUT-02,결제,경계값,P2,"로그인 상태, 상품 1개 담고 정보 입력 화면에 있음","1. First Name에 Junyoung 입력
+2. Last Name과 Zip/Postal Code를 비워 둠
+3. [Continue] 선택","""Error: Last Name is required"" 에러 하나만 표시되고(우편번호 에러는 함께 표시되지 않음) 정보 입력 화면에 머무른다",Y,N,
+TC-CHECKOUT-008,REQ-CHECKOUT-02,결제,정상,P2,"로그인 상태, 상품 1개 담고 정보 입력 화면에 있음","1. First Name을 비운 채 [Continue] 선택해 에러 확인
+2. First Name에 Junyoung 입력
+3. [Continue] 선택",주문 확인 화면으로 이동하고 담은 상품이 노출된다,Y,N,
+TC-CHECKOUT-009,REQ-CHECKOUT-03,결제,정상,P1,"로그인 상태, 상품 2개를 담은 상태","1. 장바구니에서 [Checkout] 선택
+2. First Name Junyoung, Last Name Kim, Zip/Postal Code 12345 입력
+3. [Continue] 선택","주문 확인 화면으로 이동하고 담은 2개 상품이 각각 수량 1, 상품 목록 화면과 같은 이름·가격으로 노출된다",Y,Y,
+TC-CHECKOUT-010,REQ-CHECKOUT-03,결제,예외,P2,"로그인 상태, 상품 3개를 담은 상태","1. 장바구니에서 상품 1개 [Remove] 선택
+2. [Checkout] 선택
+3. 정보를 모두 입력하고 [Continue] 선택",주문 확인 화면에 남은 2개 상품만 노출되고 제거한 상품은 노출되지 않는다,Y,N,
+TC-CHECKOUT-011,REQ-CHECKOUT-04,결제,정상,P1,"로그인 상태, 상품 2개 담고 주문 확인 화면에 있음",1. 주문 확인 화면의 결제 요약 영역 확인,"결제 수단, 배송 정보, 상품 합계(Item total), 세금(Tax), 총액(Total)이 노출되고, Total 값이 Item total + Tax와 센트 단위까지 같다",Y,Y,
+TC-CHECKOUT-012,REQ-CHECKOUT-04,결제,정상,P1,"로그인 상태, 상품 2개 담고 주문 확인 화면에 있음","1. 노출된 상품 가격의 합 계산
+2. Item total 값과 비교",Item total 값이 주문 확인 화면에 노출된 상품 가격의 합과 같다,Y,N,
+TC-CHECKOUT-013,REQ-CHECKOUT-04,결제,경계값,P2,"로그인 상태, 6개 상품을 모두 담은 상태","1. [Checkout] 선택
+2. 정보를 모두 입력하고 [Continue] 선택
+3. 결제 요약 금액 확인","Item total이 6개 상품 가격의 합과 같고, Total = Item total + Tax이며, Item total·Tax·Total이 모두 소수점 둘째 자리까지 표시된다",Y,N,
+TC-CHECKOUT-014,REQ-CHECKOUT-04,결제,경계값,P2,"로그인 상태, 가장 저렴한 상품 1개만 담은 상태","1. [Checkout] 선택
+2. 정보를 모두 입력하고 [Continue] 선택
+3. 결제 요약 금액 확인","Item total이 해당 상품 가격과 같고, Total = Item total + Tax이다",Y,N,
+TC-CHECKOUT-015,REQ-CHECKOUT-04,결제,예외,P2,"로그인 상태, 상품 1개 담고 주문 확인 화면에 있음","1. [Cancel] 선택
+2. 상품 목록 화면으로 이동해 다른 상품 1개 담기
+3. [Checkout] → 정보 입력 → [Continue] 선택","Item total, Tax, Total이 추가한 상품을 포함해 다시 계산되고 Total = Item total + Tax이다",Y,N,
+TC-CHECKOUT-016,Q-01,결제,경계값,P3,로그인 상태,"1. $7.99 상품 1개만 담고 주문 확인 화면까지 진행
+2. Tax 값 확인
+3. 상품을 바꿔 가며(2~3개 조합) 반복",[확인필요] 정책 미정,N,N,"Tax = Item total의 8%를 센트 단위로 반올림한 값과 일치($7.99 → $0.64, $29.99 → $2.40, $39.98 → $3.20)"
+TC-CHECKOUT-017,REQ-CHECKOUT-05,결제,정상,P1,"로그인 상태, 상품 2개 담고 주문 확인 화면에 있음","1. [Finish] 선택
+2. 장바구니 아이콘 선택","""Thank you for your order!"" 문구가 있는 주문 완료 화면이 노출되고, 상단 배지가 사라지며, 장바구니 화면에 상품이 하나도 없다",Y,Y,
+TC-CHECKOUT-018,REQ-CHECKOUT-05,결제,예외,P1,"로그인 상태, 상품 2개를 주문해 주문 완료 화면에 있음","1. 브라우저 뒤로가기
+2. 주문 확인 화면이 보이면 상품 목록과 금액 확인
+3. [Finish] 다시 선택
+4. 장바구니 아이콘 선택","뒤로가기로 돌아간 주문 확인 화면에 주문했던 상품이 하나도 표시되지 않고 Item total·Tax·Total이 모두 $0.00이며, [Finish]를 다시 눌러도 배지가 생기지 않고 장바구니 화면의 상품이 0개다",Y,N,"뒤로가기 시 주문 확인 화면에 상품 0개, Tax·Total은 $0.00이지만 Item total은 ""$0""으로 표시된다(D-10 불일치). [Finish] 재선택 시 완료 화면이 다시 표시되고 장바구니·배지는 비어 있다"
+TC-CHECKOUT-019,REQ-CHECKOUT-06,결제,정상,P1,"로그인 상태, 주문 완료 화면에 있음",1. [Back Home] 선택,"URL이 /inventory.html로 바뀌어 상품 6개가 노출되고, 배지가 없으며 모든 상품 버튼이 [Add to cart]이다",Y,N,
+TC-CHECKOUT-020,REQ-CHECKOUT-06,결제,예외,P3,"로그인 상태, 주문 완료 화면에 있음","1. 브라우저 새로고침
+2. [Back Home] 선택","새로고침 후에도 주문 완료 화면이 유지되고, [Back Home] 선택 시 URL이 /inventory.html로 바뀐다",Y,N,
+TC-CHECKOUT-021,REQ-CHECKOUT-07,결제,정상,P1,"로그인 상태, 상품 2개 담고 정보 입력 화면에 있음",1. [Cancel] 선택,"장바구니 화면으로 돌아가고 담은 2개 상품과 배지 ""2""가 그대로 유지된다",Y,N,
+TC-CHECKOUT-022,REQ-CHECKOUT-07,결제,정상,P1,"로그인 상태, 상품 2개 담고 주문 확인 화면에 있음","1. [Cancel] 선택
+2. 장바구니 아이콘 선택","바로 직전 페이지인 정보 입력 화면(/checkout-step-one.html)으로 돌아가고, 배지 ""2""와 장바구니의 2개 상품이 그대로 유지된다",Y,N,주문 확인 화면에서 [Cancel] 선택 시 정보 입력 화면이 아니라 상품 목록(/inventory.html)으로 이동한다(D-09 불일치)
+TC-CHECKOUT-023,Q-08,결제,예외,P3,"로그인 상태, 상품 1개 담고 정보 입력 화면에 있음","1. First Name에 Junyoung 입력
+2. [Cancel] 선택
+3. 다시 [Checkout] 선택",[확인필요] 정책 미정,N,N,"[Cancel] 시 장바구니 화면(/cart.html)으로 돌아가 상품·배지 ""1""이 유지되고, 다시 들어간 정보 입력 화면의 세 필드는 모두 비어 있다"
+TC-CHECKOUT-024,Q-02,결제,예외,P3,"로그인 상태, 상품 1개 담고 정보 입력 화면에 있음","1. First Name Junyoung, Last Name Kim 입력
+2. Zip/Postal Code에 abcde 입력
+3. [Continue] 선택",[확인필요] 정책 미정,N,N,Zip/Postal Code에 abcde를 입력해도 에러 없이 주문 확인 화면(/checkout-step-two.html)으로 이동한다
+TC-CHECKOUT-025,REQ-CHECKOUT-02,결제,경계값,P2,"로그인 상태, 상품 1개 담고 정보 입력 화면에 있음","1. First Name Junyoung, Last Name Kim 입력
+2. Zip/Postal Code에 공백 3칸만 입력
+3. [Continue] 선택","공백만 입력한 값은 빈 값으로 처리되어 ""Error: Postal Code is required"" 에러가 표시되고 정보 입력 화면에 머무른다",Y,N,Zip/Postal Code에 공백만 입력해도 에러 없이 주문 확인 화면으로 이동한다(D-08 불일치)
+TC-CHECKOUT-026,Q-03,결제,예외,P3,"로그인 상태, 장바구니 비어 있음","1. 장바구니 아이콘 선택
+2. [Checkout] 선택
+3. 정보 입력 후 [Continue] → [Finish] 진행 시도",[확인필요] 정책 미정,N,N,"빈 장바구니에서도 [Checkout]이 활성화되어 있고, 정보 입력 → 주문 확인(상품 0개, Item total ""$0"", Tax $0.00, Total $0.00) → [Finish] → ""Thank you for your order!"" 완료 화면까지 진행된다"
+TC-CHECKOUT-027,Q-06,결제,UI,P3,"로그인 상태, 상품 1개 담고 주문 확인 화면에 있음",1. 결제 수단과 배송 정보 영역 확인,[확인필요] 정책 미정,N,N,"Payment Information ""SauceCard #31337"", Shipping Information ""Free Pony Express Delivery!""가 고정 텍스트로 표시되고 선택·변경 UI가 없다"
+TC-CHECKOUT-028,REQ-CHECKOUT-04,결제,정상,P2,"로그인 상태, 상품 1개 담고 정보 입력 화면에 있음","1. First Name Junyoung, Last Name Kim, Zip/Postal Code 12345 입력
+2. [Continue] 선택
+3. 주문 확인 화면의 배송 정보(Shipping Information) 영역 확인","배송 정보(Shipping Information)에 고정 문구 ""Free Pony Express Delivery!""가 표시된다",Y,N,입력한 이름·우편번호는 주문 확인 화면 어디에도 표시되지 않는다
+TC-CHECKOUT-029,REQ-CHECKOUT-02,결제,경계값,P2,"로그인 상태, 상품 1개 담고 정보 입력 화면에 있음","1. First Name에 공백 3칸만 입력
+2. Last Name Kim, Zip/Postal Code 12345 입력
+3. [Continue] 선택","공백만 입력한 값은 빈 값으로 처리되어 ""Error: First Name is required"" 에러가 표시되고 정보 입력 화면에 머무른다",Y,N,First Name에 공백만 입력해도 에러 없이 주문 확인 화면으로 이동한다(D-08 불일치)
+TC-CHECKOUT-030,REQ-CHECKOUT-02,결제,경계값,P2,"로그인 상태, 상품 1개 담고 정보 입력 화면에 있음","1. First Name Junyoung 입력
+2. Last Name에 공백 3칸만 입력
+3. Zip/Postal Code 12345 입력
+4. [Continue] 선택","공백만 입력한 값은 빈 값으로 처리되어 ""Error: Last Name is required"" 에러가 표시되고 정보 입력 화면에 머무른다",Y,N,Last Name에 공백만 입력해도 에러 없이 주문 확인 화면으로 이동한다(D-08 불일치)
+TC-CHECKOUT-031,REQ-CHECKOUT-05,결제,예외,P2,"로그인 상태, 상품 1개 담고 주문 확인 화면에 있음","1. [Finish]를 빠르게 연속 두 번 선택(더블클릭)
+2. 화면 확인
+3. 장바구니 아이콘 선택","""Thank you for your order!"" 주문 완료 화면이 표시되고, 에러 없이 배지가 없으며 장바구니 화면의 상품이 0개다",Y,N,
+TC-CHECKOUT-032,REQ-CHECKOUT-07,결제,예외,P2,"로그인 상태, 상품 1개 담고 정보 입력 화면에 있음","1. 세 필드를 비운 채 [Continue] 선택해 에러 표시
+2. 에러가 표시된 상태에서 [Cancel] 선택","바로 직전 페이지인 장바구니 화면(/cart.html)으로 돌아가고, 담은 상품과 배지 ""1""이 그대로 유지된다",Y,N,
