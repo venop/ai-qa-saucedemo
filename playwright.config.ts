@@ -24,7 +24,10 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['html'],
+    ['json', { outputFile: 'test-results/results.json' }],
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
@@ -33,8 +36,9 @@ export default defineConfig({
     /* saucedemo uses data-test attributes, so getByTestId() targets data-test */
     testIdAttribute: 'data-test',
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    /* 실패한 테스트만 스크린샷과 trace를 남긴다. See https://playwright.dev/docs/trace-viewer */
+    screenshot: 'only-on-failure',
+    trace: 'retain-on-failure',
   },
 
   /* Configure projects for major browsers */

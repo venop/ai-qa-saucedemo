@@ -152,4 +152,80 @@ test.describe('결제', () => {
     await expect(checkoutPage.error).toHaveText('Error: Postal Code is required');
     await expect(page).toHaveURL(/\/checkout-step-one\.html$/);
   });
+
+  test('[TC-CHECKOUT-018] 주문 완료 후 뒤로가기로 돌아간 주문 확인 화면은 비어 있고 Finish를 다시 눌러도 장바구니가 비어 있음', async ({ page, inventoryPage, cartPage, checkoutPage }) => {
+    // 사전조건: 상품 2개를 주문해 주문 완료 화면에 있음
+    await reachStepTwo({ page, inventoryPage, cartPage, checkoutPage });
+    await checkoutPage.finish();
+    await expect(page).toHaveURL(/\/checkout-complete\.html$/);
+
+    // 1) 브라우저 뒤로가기
+    await page.goBack();
+    await expect(page).toHaveURL(/\/checkout-step-two\.html$/);
+
+    // 2) 상품 목록과 금액 확인: 상품 0개, Item total·Tax·Total 모두 $0.00
+    await expect(checkoutPage.items).toHaveCount(0);
+    await expect(checkoutPage.subtotalLabel).toHaveText('Item total: $0.00');
+    await expect(checkoutPage.taxLabel).toHaveText('Tax: $0.00');
+    await expect(checkoutPage.totalLabel).toHaveText('Total: $0.00');
+
+    // 3) Finish 다시 선택 → 배지가 생기지 않음
+    await checkoutPage.finish();
+    await expect(checkoutPage.cartBadge).toHaveCount(0);
+
+    // 4) 장바구니 아이콘 선택 → 상품 0개
+    await checkoutPage.openCart();
+    await expect(page).toHaveURL(/\/cart\.html$/);
+    await expect(cartPage.items).toHaveCount(0);
+  });
+
+  test('[TC-CHECKOUT-022] 주문 확인 화면에서 Cancel 시 정보 입력 화면으로 돌아가고 장바구니가 유지됨', async ({ page, inventoryPage, cartPage, checkoutPage }) => {
+    // 사전조건: 상품 2개 담고 주문 확인 화면에 있음
+    await reachStepTwo({ page, inventoryPage, cartPage, checkoutPage });
+
+    // 1) Cancel 선택 → 바로 직전 페이지인 정보 입력 화면, 배지 "2" 유지
+    await checkoutPage.cancel();
+    await expect(page).toHaveURL(/\/checkout-step-one\.html$/);
+    await expect(checkoutPage.cartBadge).toHaveText('2');
+
+    // 2) 장바구니 아이콘 선택 → 2개 상품 유지
+    await checkoutPage.openCart();
+    await expect(page).toHaveURL(/\/cart\.html$/);
+    await expect(cartPage.items).toHaveCount(2);
+    for (const product of PRODUCTS) {
+      await expect(cartPage.itemByName(product.name)).toHaveCount(1);
+    }
+  });
+
+  test('[TC-CHECKOUT-029] First Name에 공백만 입력하면 빈 값으로 처리되어 에러 표시', async ({ page, inventoryPage, cartPage, checkoutPage }) => {
+    const pages = { page, inventoryPage, cartPage, checkoutPage };
+    // 사전조건: 상품 1개 담고 정보 입력 화면에 있음
+    await addToCart(pages, [PRODUCTS[0].slug]);
+    await goToCheckoutInfo(pages);
+
+    // 1) First Name 공백 3칸 2) Last Name Kim, Zip 12345 입력
+    await checkoutPage.fillInfo('   ', 'Kim', '12345');
+    await expect(checkoutPage.firstName).toHaveValue('   ');
+
+    // 3) Continue 선택
+    await checkoutPage.continue();
+    await expect(checkoutPage.error).toHaveText('Error: First Name is required');
+    await expect(page).toHaveURL(/\/checkout-step-one\.html$/);
+  });
+
+  test('[TC-CHECKOUT-030] Last Name에 공백만 입력하면 빈 값으로 처리되어 에러 표시', async ({ page, inventoryPage, cartPage, checkoutPage }) => {
+    const pages = { page, inventoryPage, cartPage, checkoutPage };
+    // 사전조건: 상품 1개 담고 정보 입력 화면에 있음
+    await addToCart(pages, [PRODUCTS[0].slug]);
+    await goToCheckoutInfo(pages);
+
+    // 1) First Name Junyoung 2) Last Name 공백 3칸 3) Zip 12345 입력
+    await checkoutPage.fillInfo('Junyoung', '   ', '12345');
+    await expect(checkoutPage.lastName).toHaveValue('   ');
+
+    // 4) Continue 선택
+    await checkoutPage.continue();
+    await expect(checkoutPage.error).toHaveText('Error: Last Name is required');
+    await expect(page).toHaveURL(/\/checkout-step-one\.html$/);
+  });
 });

@@ -18,6 +18,8 @@ export class CheckoutPage extends BasePage {
   readonly taxLabel: Locator;
   readonly totalLabel: Locator;
   readonly finishButton: Locator;
+  // 정보 입력·주문 확인 공통
+  readonly cancelButton: Locator;
   // 완료
   readonly completeHeader: Locator;
 
@@ -36,6 +38,7 @@ export class CheckoutPage extends BasePage {
     this.taxLabel = page.getByTestId('tax-label');
     this.totalLabel = page.getByTestId('total-label');
     this.finishButton = page.getByTestId('finish');
+    this.cancelButton = page.getByTestId('cancel');
     this.completeHeader = page.getByTestId('complete-header');
   }
 
@@ -77,5 +80,9 @@ export class CheckoutPage extends BasePage {
 
   async finish() {
     await this.finishButton.click();
+  }
+
+  async cancel() {
+    await this.cancelButton.click();
   }
 }
