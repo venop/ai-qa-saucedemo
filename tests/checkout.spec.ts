@@ -136,4 +136,20 @@ test.describe('결제', () => {
     await expect(page).toHaveURL(/\/cart\.html$/);
     await expect(cartPage.items).toHaveCount(0);
   });
+
+  test('[TC-CHECKOUT-025] Zip/Postal Code에 공백만 입력하면 빈 값으로 처리되어 에러 표시', async ({ page, inventoryPage, cartPage, checkoutPage }) => {
+    const pages = { page, inventoryPage, cartPage, checkoutPage };
+    // 사전조건: 상품 1개 담고 정보 입력 화면에 있음
+    await addToCart(pages, [PRODUCTS[0].slug]);
+    await goToCheckoutInfo(pages);
+
+    // 1) First Name Junyoung, Last Name Kim 2) Zip/Postal Code에 공백 3칸만 입력
+    await checkoutPage.fillInfo('Junyoung', 'Kim', '   ');
+    await expect(checkoutPage.postalCode).toHaveValue('   ');
+
+    // 3) Continue 클릭 → 기대결과: 공백만 입력한 값은 빈 값으로 처리되어 에러 표시, 정보 입력 화면에 머무름
+    await checkoutPage.continue();
+    await expect(checkoutPage.error).toHaveText('Error: Postal Code is required');
+    await expect(page).toHaveURL(/\/checkout-step-one\.html$/);
+  });
 });
