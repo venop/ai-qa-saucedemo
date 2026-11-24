@@ -137,7 +137,9 @@ test.describe('결제', () => {
     await expect(cartPage.items).toHaveCount(0);
   });
 
-  test('[TC-CHECKOUT-025] Zip/Postal Code에 공백만 입력하면 빈 값으로 처리되어 에러 표시', async ({ page, inventoryPage, cartPage, checkoutPage }) => {
+  test('[TC-CHECKOUT-025] Zip/Postal Code에 공백만 입력하면 빈 값으로 처리되어 에러 표시', { annotation: { type: 'bug', description: 'BUG-003 D-08: 공백만 입력해도 검증 통과 (Zip/Postal Code)' } }, async ({ page, inventoryPage, cartPage, checkoutPage }) => {
+    // 알려진 결함(BUG-003)으로 실패가 예상된다. 결함이 고쳐져 통과하면 test.fail 때문에 실패로 보고되므로 이 줄을 지운다
+    test.fail();
     const pages = { page, inventoryPage, cartPage, checkoutPage };
     // 사전조건: 상품 1개 담고 정보 입력 화면에 있음
     await addToCart(pages, [PRODUCTS[0].slug]);
@@ -153,7 +155,9 @@ test.describe('결제', () => {
     await expect(page).toHaveURL(/\/checkout-step-one\.html$/);
   });
 
-  test('[TC-CHECKOUT-018] 주문 완료 후 뒤로가기로 돌아간 주문 확인 화면에서 Finish를 다시 눌러도 주문 완료 화면이 다시 표시되지 않음', async ({ page, inventoryPage, cartPage, checkoutPage }) => {
+  test('[TC-CHECKOUT-018] 주문 완료 후 뒤로가기로 돌아간 주문 확인 화면에서 Finish를 다시 눌러도 주문 완료 화면이 다시 표시되지 않음', { annotation: { type: 'bug', description: 'BUG-001 D-11: 완료 후 뒤로가기로 빈 주문을 다시 완료할 수 있음' } }, async ({ page, inventoryPage, cartPage, checkoutPage }) => {
+    // 알려진 결함(BUG-001)으로 실패가 예상된다. 결함이 고쳐져 통과하면 test.fail 때문에 실패로 보고되므로 이 줄을 지운다
+    test.fail();
     // 사전조건: 상품 2개를 주문해 주문 완료 화면에 있음
     await reachStepTwo({ page, inventoryPage, cartPage, checkoutPage });
     await checkoutPage.finish();
@@ -166,12 +170,16 @@ test.describe('결제', () => {
     // 2) [Finish] 다시 선택 → 주문 완료 화면이 다시 표시되지 않음 (D-11)
     // 부정 검증은 즉시 통과할 수 있으므로, 클릭 후 화면 전환이 끝났다고 보는 근거는
     // saucedemo의 [Finish]가 클라이언트 라우팅으로 클릭 처리 중에 바로 이동한다는 점이다
+    // TODO(BUG-001): 부정 검증이라 결함이 고쳐져서 통과할 때 화면 전환 전에 확인한 게 아닌지 재확인 필요.
+    //   D-11 기대 동작이 정해지면(Q-11) 긍정 검증으로 바꾼다
     await checkoutPage.finish();
     await expect(page).not.toHaveURL(/\/checkout-complete\.html$/);
     await expect(checkoutPage.completeHeader).toHaveCount(0);
   });
 
-  test('[TC-CHECKOUT-033] 빈 주문 확인 화면에서도 Item total, Tax, Total이 소수점 둘째 자리까지 표시됨', async ({ page, inventoryPage, cartPage, checkoutPage }) => {
+  test('[TC-CHECKOUT-033] 빈 주문 확인 화면에서도 Item total, Tax, Total이 소수점 둘째 자리까지 표시됨', { annotation: { type: 'bug', description: 'BUG-001 D-10 부수 증상: 빈 주문 확인 화면의 Item total이 $0으로 표시됨' } }, async ({ page, inventoryPage, cartPage, checkoutPage }) => {
+    // 알려진 결함(BUG-001)으로 실패가 예상된다. 결함이 고쳐져 통과하면 test.fail 때문에 실패로 보고되므로 이 줄을 지운다
+    test.fail();
     // 사전조건: 상품 2개를 주문해 주문 완료 화면에 있음
     await reachStepTwo({ page, inventoryPage, cartPage, checkoutPage });
     await checkoutPage.finish();
@@ -188,7 +196,9 @@ test.describe('결제', () => {
     await expect.soft(checkoutPage.totalLabel).toHaveText('Total: $0.00');
   });
 
-  test('[TC-CHECKOUT-022] 주문 확인 화면에서 Cancel 시 정보 입력 화면으로 돌아가고 장바구니가 유지됨', async ({ page, inventoryPage, cartPage, checkoutPage }) => {
+  test('[TC-CHECKOUT-022] 주문 확인 화면에서 Cancel 시 정보 입력 화면으로 돌아가고 장바구니가 유지됨', { annotation: { type: 'bug', description: 'BUG-002 D-09: 주문 확인 화면 Cancel 시 상품 목록으로 이동' } }, async ({ page, inventoryPage, cartPage, checkoutPage }) => {
+    // 알려진 결함(BUG-002)으로 실패가 예상된다. 결함이 고쳐져 통과하면 test.fail 때문에 실패로 보고되므로 이 줄을 지운다
+    test.fail();
     // 사전조건: 상품 2개 담고 주문 확인 화면에 있음
     await reachStepTwo({ page, inventoryPage, cartPage, checkoutPage });
 
@@ -206,7 +216,9 @@ test.describe('결제', () => {
     }
   });
 
-  test('[TC-CHECKOUT-029] First Name에 공백만 입력하면 빈 값으로 처리되어 에러 표시', async ({ page, inventoryPage, cartPage, checkoutPage }) => {
+  test('[TC-CHECKOUT-029] First Name에 공백만 입력하면 빈 값으로 처리되어 에러 표시', { annotation: { type: 'bug', description: 'BUG-003 D-08: 공백만 입력해도 검증 통과 (First Name)' } }, async ({ page, inventoryPage, cartPage, checkoutPage }) => {
+    // 알려진 결함(BUG-003)으로 실패가 예상된다. 결함이 고쳐져 통과하면 test.fail 때문에 실패로 보고되므로 이 줄을 지운다
+    test.fail();
     const pages = { page, inventoryPage, cartPage, checkoutPage };
     // 사전조건: 상품 1개 담고 정보 입력 화면에 있음
     await addToCart(pages, [PRODUCTS[0].slug]);
@@ -222,7 +234,9 @@ test.describe('결제', () => {
     await expect(page).toHaveURL(/\/checkout-step-one\.html$/);
   });
 
-  test('[TC-CHECKOUT-030] Last Name에 공백만 입력하면 빈 값으로 처리되어 에러 표시', async ({ page, inventoryPage, cartPage, checkoutPage }) => {
+  test('[TC-CHECKOUT-030] Last Name에 공백만 입력하면 빈 값으로 처리되어 에러 표시', { annotation: { type: 'bug', description: 'BUG-003 D-08: 공백만 입력해도 검증 통과 (Last Name)' } }, async ({ page, inventoryPage, cartPage, checkoutPage }) => {
+    // 알려진 결함(BUG-003)으로 실패가 예상된다. 결함이 고쳐져 통과하면 test.fail 때문에 실패로 보고되므로 이 줄을 지운다
+    test.fail();
     const pages = { page, inventoryPage, cartPage, checkoutPage };
     // 사전조건: 상품 1개 담고 정보 입력 화면에 있음
     await addToCart(pages, [PRODUCTS[0].slug]);
