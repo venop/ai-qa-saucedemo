@@ -49,4 +49,16 @@ npx playwright test tests/checkout.spec.ts --project=webkit --repeat-each=4 --wo
 | 2026-11-24 | webkit, `--repeat-each=4 --workers=8`, 1회 | 16/16 통과 | 0회 |
 | 2026-11-24 | webkit, `--repeat-each=8 --workers=8`, 3회 | 96/96 통과 | 7회 (모두 1회 재입력 후 통과) |
 
+2026-11-24 96회 실행의 TC별 재입력 횟수 (각 TC 24회 실행, annotation `입력값 재입력 발생` 기준):
+
+| TC | 재입력 발생 |
+|---|---|
+| TC-CHECKOUT-003 | 2회 |
+| TC-CHECKOUT-009 | 2회 |
+| TC-CHECKOUT-011 | 2회 |
+| TC-CHECKOUT-017 | 1회 |
+| 합계 | 7회 / 96회 (약 7%) |
+
+같은 날 먼저 돌린 16회(`--repeat-each=4`)에서는 재입력이 한 번도 없었다. 발생 빈도가 실행마다 달라 적은 횟수로는 관찰되지 않을 수 있다.
+
 재입력 7회는 TC-CHECKOUT-003, 009, 011, 017에서 고르게 나왔다. 특정 TC의 문제가 아니라 정보 입력 화면 진입 시점의 문제라는 판단과 맞는다.
