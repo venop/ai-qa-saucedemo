@@ -15,13 +15,27 @@ jobs:
         node-version: lts/*
     - name: Install dependencies
       run: npm ci
+    - name: Type check
+      run: npm run typecheck
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
       run: npx playwright test
+      env:
+        # CI에는 .env가 없으므로 계정 정보는 GitHub Secrets에서 받는다
+        SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+        SAUCE_PASSWORD: ${{ secrets.SAUCE_PASSWORD }}
+    # 테스트가 실패해도(취소된 경우만 제외) 리포트를 남긴다
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: playwright-report
         path: playwright-report/
+        retention-days: 30
+    # 실패한 테스트의 스크린샷·trace와 results.json
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: test-results
+        path: test-results/
         retention-days: 30

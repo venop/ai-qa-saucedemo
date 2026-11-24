@@ -3,7 +3,9 @@ import fs from 'fs';
 import path from 'path';
 
 /**
- * Read environment variables from .env (Node built-in, no dotenv needed).
+ * 로컬에서는 .env를 읽는다 (Node 내장, dotenv 불필요).
+ * CI처럼 .env가 없으면 건너뛰고, 워크플로가 넘긴 환경변수를 그대로 쓴다.
+ * loadEnvFile은 이미 설정된 환경변수를 덮어쓰지 않는다.
  */
 const envPath = path.resolve(__dirname, '.env');
 if (fs.existsSync(envPath)) {
