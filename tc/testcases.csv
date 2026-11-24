@@ -1,36 +1,36 @@
 ﻿TC_ID,REQ_ID,기능,유형,우선순위,사전조건,테스트 스텝,기대결과,자동화 대상,자동화 1차 대상,비고(현재 동작)
 TC-LOGIN-001,REQ-LOGIN-01,로그인,정상,P1,"로그인 화면(/) 접속, 비로그인 상태","1. Username에 standard_user 입력
-2. Password에 secret_sauce 입력
+2. Password에 .env의 SAUCE_PASSWORD 값 입력
 3. [Login] 선택",URL이 /inventory.html로 바뀌고 상품 목록이 노출된다,Y,Y,
 TC-LOGIN-002,REQ-LOGIN-01,로그인,정상,P3,"로그인 화면(/) 접속, 비로그인 상태","1. Username에 standard_user 입력
-2. Password에 secret_sauce 입력
+2. Password에 .env의 SAUCE_PASSWORD 값 입력
 3. Password 필드에서 Enter 키 입력",[Login] 버튼을 누르지 않아도 로그인되어 URL이 /inventory.html로 바뀌고 상품 목록이 노출된다,Y,N,
 TC-LOGIN-003,REQ-LOGIN-01,로그인,예외,P3,"로그인 화면(/) 접속, 비로그인 상태","1. Username에 "" standard_user ""(앞뒤 공백 포함) 입력
-2. Password에 secret_sauce 입력
+2. Password에 .env의 SAUCE_PASSWORD 값 입력
 3. [Login] 선택","공백이 제거되지 않아 로그인에 실패하고 ""Epic sadface: Username and password do not match any user in this service"" 에러 메시지가 표시되며 URL은 로그인 화면(/)에 머무른다",Y,N,
 TC-LOGIN-004,REQ-LOGIN-02,로그인,예외,P1,"로그인 화면(/) 접속, 비로그인 상태","1. Username에 standard_user 입력
 2. Password에 wrong_password 입력
 3. [Login] 선택","""Epic sadface: Username and password do not match any user in this service"" 에러 메시지가 표시되고 URL은 로그인 화면(/)에 머무른다",Y,Y,
 TC-LOGIN-005,REQ-LOGIN-02,로그인,예외,P1,"로그인 화면(/) 접속, 비로그인 상태","1. Username에 unknown_user(존재하지 않는 아이디) 입력
-2. Password에 secret_sauce 입력
+2. Password에 .env의 SAUCE_PASSWORD 값 입력
 3. [Login] 선택","""Epic sadface: Username and password do not match any user in this service"" 에러 메시지가 표시되고 URL은 로그인 화면(/)에 머무른다",Y,N,
 TC-LOGIN-006,REQ-LOGIN-02,로그인,경계값,P2,"로그인 화면(/) 접속, 비로그인 상태","1. Username에 standard_user 입력
 2. Password에 Secret_Sauce(대소문자만 다름) 입력
 3. [Login] 선택","""Epic sadface: Username and password do not match any user in this service"" 에러 메시지가 표시되고 URL은 로그인 화면(/)에 머무른다",Y,N,
 TC-LOGIN-007,REQ-LOGIN-02,로그인,예외,P2,"로그인 화면(/) 접속, 비로그인 상태","1. Username을 비워 둠
-2. Password에 secret_sauce 입력
+2. Password에 .env의 SAUCE_PASSWORD 값 입력
 3. [Login] 선택","""Epic sadface: Username is required"" 에러 메시지가 표시되고 URL은 로그인 화면(/)에 머무른다",Y,N,
 TC-LOGIN-008,REQ-LOGIN-02,로그인,예외,P2,"로그인 화면(/) 접속, 비로그인 상태","1. Username에 standard_user 입력
 2. Password를 비워 둠
 3. [Login] 선택","""Epic sadface: Password is required"" 에러 메시지가 표시되고 URL은 로그인 화면(/)에 머무른다",Y,N,
 TC-LOGIN-009,REQ-LOGIN-02,로그인,정상,P2,"로그인 화면(/) 접속, 비로그인 상태","1. standard_user / wrong_password로 로그인 시도
 2. 에러 메시지 표시 확인
-3. Password를 secret_sauce로 고쳐 입력
+3. Password를 .env의 SAUCE_PASSWORD 값으로 고쳐 입력
 4. [Login] 선택",에러 메시지 이후 재시도에서 로그인되어 URL이 /inventory.html로 바뀌고 상품 목록이 노출된다,Y,N,
 TC-LOGIN-010,REQ-LOGIN-02,로그인,UI,P3,"로그인 화면(/) 접속, 비로그인 상태","1. standard_user / wrong_password로 로그인 시도
 2. 에러 메시지의 닫기(X) 버튼 선택",에러 메시지가 사라지고 Username·Password 입력 필드의 에러 표시(빨간 테두리·X 아이콘)도 사라진다,Y,N,
 TC-LOGIN-011,REQ-LOGIN-03,로그인,정상,P1,"로그인 화면(/) 접속, 비로그인 상태","1. Username에 locked_out_user 입력
-2. Password에 secret_sauce 입력
+2. Password에 .env의 SAUCE_PASSWORD 값 입력
 3. [Login] 선택","""Epic sadface: Sorry, this user has been locked out."" 잠금 안내 메시지가 표시되고 URL은 로그인 화면(/)에 머무른다",Y,Y,
 TC-LOGIN-012,REQ-LOGIN-03,로그인,예외,P2,"로그인 화면(/) 접속, 비로그인 상태","1. Username에 locked_out_user 입력
 2. Password에 wrong_password 입력
@@ -108,7 +108,7 @@ TC-CART-010,REQ-CART-03,장바구니,예외,P2,"로그인 상태, 상품 2개를
 TC-CART-011,Q-04,장바구니,UI,P3,"로그인 상태, 상품 1개를 담은 상태","1. 장바구니 아이콘 선택
 2. 상품의 수량 표시와 수량 변경 UI 확인",[확인필요] 정책 미정,N,N,"수량은 ""1"" 텍스트로만 표시되고 수량을 바꾸는 입력·버튼이 없다. 담은 상품의 목록 버튼이 [Remove]로 바뀌어 같은 상품을 다시 담을 수 없다"
 TC-CART-012,Q-05,장바구니,예외,P3,"로그인 상태, 상품 2개를 담은 상태","1. 좌측 메뉴에서 [Logout] 선택
-2. standard_user / secret_sauce로 다시 로그인
+2. standard_user / .env의 SAUCE_PASSWORD 값으로 다시 로그인
 3. 배지와 장바구니 확인",[확인필요] 정책 미정,N,N,"로그아웃 후 다시 로그인해도 장바구니가 유지된다(배지 ""2"", 담은 두 상품 버튼 [Remove])"
 TC-CART-013,REQ-CART-01,장바구니,정상,P2,"standard_user로 로그인해 상품 목록 화면(/inventory.html)에 있음, 장바구니 비어 있음","1. 첫 번째 상품의 이름을 선택해 상품 상세 화면으로 이동
 2. 상세 화면의 [Add to cart] 선택
