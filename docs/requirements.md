@@ -76,6 +76,8 @@
 
 - Q-09 존재하지 않는 상품 상세: /inventory-item.html?id=99처럼 없는 상품에 접근하면 "ITEM NOT FOUND"와 함께 가격 "$√-1", [Add to cart] 버튼이 노출되는데 의도된 것인지
 
+- Q-10 주문 완료 화면의 [Generate PDF order] 버튼: 요구사항에 없는 기능. 범위 포함 여부 확인 필요
+
 
 
 ## 결정 사항 (2026-11-23)
